@@ -1,5 +1,6 @@
 import { MemoryEntry, Message, ExecutionResult } from '../types';
 import { authService } from './AuthService';
+import { deepSeekService } from './DeepSeekService';
 
 class PhoenixBrain {
   private memory: Map<string, string> = new Map();
@@ -30,7 +31,7 @@ class PhoenixBrain {
     });
   }
 
-  answerQuery(input: string): Message {
+  async answerQuery(input: string): Promise<Message> {
     const lowerInput = input.toLowerCase();
     
     // Update user stats
@@ -52,6 +53,19 @@ class PhoenixBrain {
       };
     }
 
+    // Try DeepSeek API for intelligent responses
+    try {
+      const deepSeekResponse = await deepSeekService.generalChat(input, this.getContextFromMemory());
+      
+      return {
+        id: Date.now().toString(),
+        type: 'phoenix',
+        content: `🧠 **Phoenix AI (Powered by DeepSeek)**\n\n${deepSeekResponse}`,
+        timestamp: new Date()
+      };
+    } catch (error) {
+      console.error('DeepSeek API failed, falling back to local responses:', error);
+    }
     // Enhanced pattern matching
     let bestMatch = '';
     let bestScore = 0;
@@ -138,6 +152,10 @@ class PhoenixBrain {
     };
   }
 
+  private getContextFromMemory(): string {
+    const recentMemories = Array.from(this.memory.entries()).slice(-5);
+    return recentMemories.map(([key, value]) => `${key}: ${value.substring(0, 100)}...`).join('\n');
+  }
   teachMemory(question: string, answer: string) {
     this.memory.set(question.toLowerCase(), answer);
     
@@ -151,7 +169,7 @@ class PhoenixBrain {
     }
   }
 
-  executeCode(code: string, language: string = 'javascript'): ExecutionResult {
+  async executeCode(code: string, language: string = 'javascript'): Promise<ExecutionResult> {
     try {
       // Update user stats
       const user = authService.getCurrentUser();
@@ -183,6 +201,17 @@ class PhoenixBrain {
           throw error;
         }
       } else {
+        // Use DeepSeek for code analysis and suggestions for other languages
+        try {
+          const analysis = await deepSeekService.analyzeCode(code, language);
+          return {
+            success: true,
+            output: `🔍 **Code Analysis (${language.toUpperCase()})**\n\n${analysis}\n\n💡 *Note: Direct execution is currently supported for JavaScript only. Other languages show analysis and suggestions.*`
+          };
+        } catch (error) {
+          console.error('DeepSeek code analysis failed:', error);
+        }
+        
         return {
           success: false,
           error: `🚧 Execution for ${language} is coming soon! Currently supporting JavaScript with plans for Python, TypeScript, and more.`
@@ -196,6 +225,29 @@ class PhoenixBrain {
     }
   }
 
+  async getCodeSuggestions(code: string, language: string): Promise<string> {
+    try {
+      return await deepSeekService.analyzeCode(code, language);
+    } catch (error) {
+      return 'Unable to get code suggestions at the moment. Please try again later.';
+    }
+  }
+
+  async explainCode(code: string, language: string): Promise<string> {
+    try {
+      return await deepSeekService.explainCode(code, language);
+    } catch (error) {
+      return 'Unable to explain code at the moment. Please try again later.';
+    }
+  }
+
+  async generateCode(requirements: string, language: string): Promise<string> {
+    try {
+      return await deepSeekService.generateCode(requirements, language);
+    } catch (error) {
+      return 'Unable to generate code at the moment. Please try again later.';
+    }
+  }
   insertCode(baseCode: string, newCode: string, marker: string): string {
     const lines = baseCode.split('\n');
     let inserted = false;

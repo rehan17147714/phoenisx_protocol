@@ -29,12 +29,22 @@ const AIBrain: React.FC = () => {
     setInput('');
     setIsTyping(true);
 
-    // Simulate realistic AI thinking time
-    setTimeout(() => {
-      const phoenixResponse = phoenixBrain.answerQuery(input);
+    try {
+      // Use async Phoenix Brain with DeepSeek integration
+      const phoenixResponse = await phoenixBrain.answerQuery(userMessage.content);
       setMessages(prev => [...prev, phoenixResponse]);
       setIsTyping(false);
-    }, 1200 + Math.random() * 800);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      const errorResponse: Message = {
+        id: Date.now().toString(),
+        type: 'phoenix',
+        content: '🔧 I encountered a technical issue. Please try again in a moment.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+      setIsTyping(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
