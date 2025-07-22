@@ -227,10 +227,49 @@ class PhoenixBrain {
 
   async getCodeSuggestions(code: string, language: string): Promise<string> {
     try {
-      return await deepSeekService.analyzeCode(code, language);
+      if (deepSeekService.isApiConfigured()) {
+        const analysis = await deepSeekService.analyzeCode(code, language);
+        return `🧠 **Phoenix AI Code Analysis (DeepSeek Enhanced)**\n\n${analysis}\n\n---\n*Powered by DeepSeek API • RCIMS Technology by Rehan*`;
+      } else {
+        return this.getLocalCodeSuggestions(code, language);
+      }
     } catch (error) {
-      return 'Unable to get code suggestions at the moment. Please try again later.';
+      console.error('DeepSeek code analysis failed:', error);
+      return this.getLocalCodeSuggestions(code, language);
     }
+  }
+
+  private getLocalCodeSuggestions(code: string, language: string): string {
+    const suggestions = [];
+    
+    // Basic code analysis
+    if (code.includes('console.log')) {
+      suggestions.push('• Consider using a proper logging library for production');
+    }
+    
+    if (code.includes('var ')) {
+      suggestions.push('• Use `let` or `const` instead of `var` for better scoping');
+    }
+    
+    if (code.includes('==') && !code.includes('===')) {
+      suggestions.push('• Use strict equality (`===`) instead of loose equality (`==`)');
+    }
+    
+    if (!code.includes('try') && (code.includes('fetch') || code.includes('async'))) {
+      suggestions.push('• Add error handling with try-catch blocks');
+    }
+    
+    if (code.split('\n').length > 50) {
+      suggestions.push('• Consider breaking this into smaller, more manageable functions');
+    }
+    
+    if (suggestions.length === 0) {
+      suggestions.push('• Code looks good! Consider adding comments for better documentation');
+      suggestions.push('• Think about edge cases and error handling');
+      suggestions.push('• Consider performance optimizations if needed');
+    }
+    
+    return `🔧 **Phoenix Local Code Analysis**\n\n**Language**: ${language.toUpperCase()}\n\n**Suggestions**:\n${suggestions.join('\n')}\n\n💡 **Tip**: Add DeepSeek API key for advanced AI-powered analysis!\n\n---\n*RCIMS Technology • Created by Rehan (@brndxanm)*`;
   }
 
   async explainCode(code: string, language: string): Promise<string> {

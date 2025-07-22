@@ -138,43 +138,43 @@ const AIBrain: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
               <button
                 onClick={() => setInput("Who is the Protocol Creator?")}
-                className="group p-6 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl text-yellow-400 hover:from-yellow-500/20 hover:to-orange-500/20 transition-all duration-300 text-left"
+                className="group p-6 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl text-yellow-400 hover:from-yellow-500/20 hover:to-orange-500/20 transition-all duration-300 text-left hover:scale-105"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Crown className="w-6 h-6" />
                   <span className="font-bold text-lg">Protocol Creator</span>
                 </div>
-                <p className="text-sm text-gray-400">Learn about Rehan and the Phoenix Protocol vision</p>
+                <p className="text-sm text-gray-400">Meet Rehan (@brndxanm) - The visionary behind Phoenix</p>
               </button>
               <button
-                onClick={() => setInput("What is NeoCortex Galaxy UI?")}
-                className="group p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl text-cyan-400 hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 text-left"
+                onClick={() => setInput("How does DeepSeek API integration work?")}
+                className="group p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl text-cyan-400 hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 text-left hover:scale-105"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Brain className="w-6 h-6" />
-                  <span className="font-bold text-lg">NeoCortex System</span>
+                  <span className="font-bold text-lg">AI Integration</span>
                 </div>
-                <p className="text-sm text-gray-400">Discover the futuristic AI architecture</p>
+                <p className="text-sm text-gray-400">Advanced DeepSeek API with local intelligence backup</p>
               </button>
               <button
                 onClick={() => setInput("How does RCIMS Core work?")}
-                className="group p-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl text-purple-400 hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-300 text-left"
+                className="group p-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl text-purple-400 hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-300 text-left hover:scale-105"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Cpu className="w-6 h-6" />
                   <span className="font-bold text-lg">RCIMS Core</span>
                 </div>
-                <p className="text-sm text-gray-400">Explore the intelligent code mapping system</p>
+                <p className="text-sm text-gray-400">Rehan's intelligent code insertion mapping system</p>
               </button>
               <button
-                onClick={() => setInput("What can the Data Harvester download?")}
-                className="group p-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-2xl text-orange-400 hover:from-orange-500/20 hover:to-red-500/20 transition-all duration-300 text-left"
+                onClick={() => setInput("What platforms does Universal Downloader support?")}
+                className="group p-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-2xl text-orange-400 hover:from-orange-500/20 hover:to-red-500/20 transition-all duration-300 text-left hover:scale-105"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Star className="w-6 h-6" />
                   <span className="font-bold text-lg">Data Harvester</span>
                 </div>
-                <p className="text-sm text-gray-400">Universal content downloading capabilities</p>
+                <p className="text-sm text-gray-400">Download from YouTube, Instagram, TikTok & more</p>
               </button>
             </div>
           </div>
